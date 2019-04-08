@@ -67,14 +67,14 @@ List <Movie> listofmovie ;
         // get instance from database
         mDb = AppDatabase.getInstance(getApplication()) ;
         jsonstring =  new JsonUtils() ;
-listofmovie = new ArrayList<Movie>() ;
+        listofmovie = new ArrayList<Movie>() ;
      //errormessage= (TextView)findViewById(R.id.errormeassage) ;
         imageresuls = new ArrayList<String>() ;
         getpathofimageurl = new ArrayList<String>() ;
         text = (TextView)findViewById(R.id.text) ;
         // making grid view
         rv = findViewById(R.id.rv);
-recyclerView= findViewById(R.id.rv);
+        recyclerView= findViewById(R.id.rv);
       //  resulturl = Networkutils.buildUrl() ;
         //new GithubQueryTask().execute(resulturl);
         /////////////////////// fro live data
@@ -86,9 +86,12 @@ recyclerView= findViewById(R.id.rv);
 
         if (savedInstanceState != null)
         {
+            Log.i("MainActivity", "number  ");
             if (savedInstanceState.containsKey("number"))
             {
+
                 number = savedInstanceState.getInt("number") ;
+                Log.i("MainActivity", "number  " + number);
                 if (number == 1)
                 {
                     resulturl = Networkutils.buildUrl() ;
@@ -125,16 +128,25 @@ recyclerView= findViewById(R.id.rv);
                         }
                     });
                 }
-
-/*                else
+                else if(number==0)
                 {
                     resulturl = Networkutils.buildUrl() ;
                     new GithubQueryTask().execute(resulturl);
 
                 }
-*/
+
+
             }
+
         }
+
+        else
+        {
+            resulturl = Networkutils.buildUrl() ;
+            new GithubQueryTask().execute(resulturl);
+
+        }
+
 
      /*   if (options!=1 && options!=2 && options!=3 )
         {
@@ -348,8 +360,12 @@ recyclerView= findViewById(R.id.rv);
      // Save list state
      mListState = sglm.onSaveInstanceState();
      number = options ;
-     state.putParcelable("LIST_STATE_KEY", mListState);
-     state.putInt("number",number);
+     Log.i("MainActivity", "saved number  " + number);
+     //if(options != 0)
+     {
+         state.putParcelable("LIST_STATE_KEY", mListState);
+         state.putInt("number", options);
+     }
  }
 
     protected void onRestoreInstanceState(Bundle state) {
@@ -359,7 +375,7 @@ recyclerView= findViewById(R.id.rv);
         if(state != null)
         {
             mListState = state.getParcelable("LIST_STATE_KEY");
-            number = state.getInt("number") ;
+            options= state.getInt("number") ;
         }
     }
     @Override
@@ -369,9 +385,9 @@ recyclerView= findViewById(R.id.rv);
         if (mListState != null) {
             sglm.onRestoreInstanceState(mListState);
         }
-        if (number!=0)
+        //if (number!=0)
         {
-            number= options ;
+            //number= options ;
     //    onRestoreInstanceState(); ;
         }
     }
